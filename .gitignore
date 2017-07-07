@@ -2,3 +2,4 @@
 lib/
 *.egg
 .idea/**/workspace.xml
+test.py
