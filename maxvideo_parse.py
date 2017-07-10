@@ -6,11 +6,12 @@ import requests
 import re
 from bs4 import BeautifulSoup
 
-siteprice=re.compile(r"Цена&nbsp;&nbsp;<b>\d+[ ]?\d+[ ]?\d+</b>")
+# Регулярки для максвидео
+siteprice=re.compile(r"<div class=\"price-value\">\d*[ ]?\d*[ ]?\d+ р.</div>")
 cleanprice=re.compile(r"[0-9]+")
 
-# Функция парсинга цены с одного урла Технопарка
-# url_str = 'http://www.technopark.ru/toster-ves-v-to-13/'
+# Функция парсинга цены с одного урла максвидео
+# url_str = 'http://www.maxvideo.ru/index.php?route=product/product&product_id=22668'
 def get_site_price (url_str):
     r = requests.get(url_str)
     data = r.content.decode(encoding='utf-8')
@@ -24,8 +25,12 @@ def get_site_price (url_str):
 def get_offer_honesty(offer):
     offerprice = str(offer('price')[0])
     offerurl = str(offer('url')[0])
+    # print(offerurl)
+    # print(offerprice)
     price = re.findall(r'[^<>]+',offerprice)[1]
-    url = re.findall(r'[^<>]+',offerurl)[1]
+    # print(price)
+    url = (re.findall(r'[^<>]+',offerurl)[1]).replace("&amp;","&")
+    # print(url)
     # print(get_site_price(url))
     # print(url)
     # print(price)
@@ -50,7 +55,7 @@ def get_offer_honesty(offer):
 # xmldata = r.content.decode(encoding='cp1251')
 # f = open("xmldata.xml", "w+")
 # f.write(xmldata)
-xmldata = open("xmldata.xml", "r")
+xmldata = open("catalog.xml", "r") # catalog-  это максвидео
 
 
 # Парсим хмл-ку
@@ -61,8 +66,8 @@ print('file ok!')
 for offer in offers:
     if get_offer_honesty(offer) != True:
         print(get_offer_honesty(offer))
-    # else:
-    #    print('ok!')
+    else:
+       print('ok!')
 print('Bingo')
 
 # offerPrice = str((offers[1]('price'))[0])
@@ -73,6 +78,21 @@ print('Bingo')
 # print(get_site_price(url))
 # print(url)
 # print(price)
+
+
+# siteprice=re.compile(r"<div class=\"price-value\">\d+[ ]?\d+[ ]?\d+ р.</div>")
+# cleanprice=re.compile(r"[0-9]+")
+#
+# url_str = 'http://www.maxvideo.ru/index.php?route=product/product&path=91_92&product_id=26093'
+# def get_site_price (url_str):
+#     r = requests.get(url_str)
+#     data = r.content.decode(encoding='utf-8')
+#     dirtyprice = siteprice.findall(data)
+#     print(dirtyprice)
+#     price = cleanprice.findall(re.sub(r'\s', '', dirtyprice[0]))
+#     print(price)
+#     return price[0]
+# print(get_site_price (url_str))
 
 
 
