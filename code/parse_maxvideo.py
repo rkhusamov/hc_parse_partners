@@ -25,11 +25,13 @@ def get_site_price (url_str):
 def get_offer_honesty(offer):
     offerprice = str(offer('price')[0])
     offerurl = str(offer('url')[0])
+
     # print(offerurl)
     # print(offerprice)
+
     price = re.findall(r'[^<>]+',offerprice)[1]
-    print(price)
     url = (re.findall(r'[^<>]+',offerurl)[1]).replace("&amp;","&")
+
     # print(url)
     # print(get_site_price(url))
     # print(url)
@@ -44,14 +46,14 @@ def get_offer_honesty(offer):
         return (price, siteprice, url)
 
 
-# # Скачиваем хмл-ку и открываем её
-# r = requests.get('http://www.maxvideo.ru/homecredapi/catalog/catalog.xml')
-# xmldata = r.content.decode(encoding='utf-8')
-# f = open("/Users/rkhusamov/PycharmProjects/hc_parse_partners/xmls/catalog.xml", "w+")
-# f.write(xmldata)
+# Скачиваем хмл-ку и открываем её
+r = requests.get('http://www.maxvideo.ru/homecredapi/catalog/catalog.xml')
+xmldata = r.content.decode(encoding='utf-8')
+f = open("/Users/rkhusamov/PycharmProjects/hc_parse_partners/xmls/xmldata_maxvideo.xml", "w+")
+f.write(xmldata)
 
-# Или просто открываем хмл
-xmldata = open('/Users/rkhusamov/PycharmProjects/hc_parse_partners/xmls/catalog.xml', "r") # catalog-  это максвидео
+# # Или просто открываем хмл
+# xmldata = open('/Users/rkhusamov/PycharmProjects/hc_parse_partners/xmls/xmldata_maxvideo.xml', "r")
 
 
 # Парсим хмл-ку

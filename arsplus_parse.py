@@ -7,7 +7,9 @@ import re
 from bs4 import BeautifulSoup
 
 # Регулярки для максвидео
-siteprice=re.compile(r"<div class=\"price-value\">\d*[ ]?\d*[ ]?\d+ р.</div>")
+
+
+siteprice=re.compile(r"<div class=\"item-price\">\d*[ ]?\d*[ ]?\d+[ ]?<span><i class=\"fa fa-rub\"></i></span></div>")
 cleanprice=re.compile(r"[0-9]+")
 
 # Функция парсинга цены с одного урла максвидео
@@ -29,7 +31,7 @@ def get_offer_honesty(offer):
     # print(offerprice)
     price = re.findall(r'[^<>]+',offerprice)[1]
     # print(price)
-    url = (re.findall(r'[^<>]+',offerurl)[1]).replace("&amp;","&")
+    url = (re.findall(r'[^<>\n]+',offerurl)[1]).replace("&amp;","&")
     # print(url)
     # print(get_site_price(url))
     # print(url)
@@ -55,7 +57,7 @@ def get_offer_honesty(offer):
 # xmldata = r.content.decode(encoding='cp1251')
 # f = open("xmldata.xml", "w+")
 # f.write(xmldata)
-xmldata = open("catalog.xml", "r") # catalog-  это максвидео
+xmldata = open("yml_home_credit.xml", "r") # catalog-  это максвидео
 
 
 # Парсим хмл-ку
