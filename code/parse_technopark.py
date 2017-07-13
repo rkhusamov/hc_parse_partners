@@ -40,17 +40,18 @@ def get_offer_honesty(offer):
 
 
 # Скачиваем хмл-ку и открываем её
-# r = requests.get('http://www.technopark.ru/price/marketHC.xml')
 # http://www.maxvideo.ru/homecredapi/catalog/catalog.xml
 # http://www.dune.ru/catalog/yandexmarket/bb948cca-b0b4-46f2-a819-bf7cb1ac2623.xml
 # http://www.iport.ru/iport_hc.xml
 # https://www.1galaxy.ru/homecredapi/xmlcatalog
 # https://arsplus.ru/bitrix/catalog_export/yml_home_credit.php
 # http://ice56.ru/yandex_market/yandex_60499.php
-# xmldata = r.content.decode(encoding='cp1251')
-# f = open("xmldata.xml", "w+")
-# f.write(xmldata)
-xmldata = open("xmldata.xml", "r")
+
+r = requests.get('http://www.technopark.ru/price/marketHC.xml')
+xmldata = r.content.decode(encoding='cp1251')
+f = open("xmldata.xml", "w+")
+f.write(xmldata)
+# xmldata = open("xmldata.xml", "r")
 
 
 # Парсим хмл-ку
