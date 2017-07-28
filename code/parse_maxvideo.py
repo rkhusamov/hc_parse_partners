@@ -1,22 +1,27 @@
 # -*- coding: utf-8 -*-
 # Достаем инфу с сйата максвидео и сравниваем с хмл
 # https://codeexperiments.quora.com/Extracting-Flipkart-reviews-through-web-scraping
-
+# maxvideo
 import requests
 import re
 from bs4 import BeautifulSoup
 
 # Регулярки для Максвидео
 siteprice=re.compile(r"<div class=\"price-value\">\d*[ ]?\d*[ ]?\d+ р.</div>")
+site_in_stock=re.compile(r"<span>Товар закончился</span>")
 cleanprice=re.compile(r"[0-9]+")
 
 # Функция парсинга цены с одного урла максвидео
-# url_str = 'http://www.maxvideo.ru/index.php?route=product/product&product_id=22668'
+# url_str = 'http://www.maxvideo.ru/tehnika-dlya-kuhni/bosch_mum_54g00_mum_54y00_mum_54d00_mum_54i00.html'
 def get_site_price (url_str):
     r = requests.get(url_str)
     data = r.content.decode(encoding='utf-8')
+    in_stock = site_in_stock.findall(data)
+    if in_stock is not None:
+        return None
     dirtyprice = siteprice.findall(data)
     price = cleanprice.findall(re.sub(r'\s', '', dirtyprice[0]))
+    print(in_stock)
     return price[0]
 # print(get_site_price(url_str))
 
@@ -40,20 +45,20 @@ def get_offer_honesty(offer):
         siteprice = get_site_price(url)
     except Exception:
         siteprice = None
-    if (siteprice == price):
+    if (siteprice == price) | (siteprice == None):
         return True
     else:
         return (price, siteprice, url)
 
 
-# Скачиваем хмл-ку и открываем её
-r = requests.get('http://www.maxvideo.ru/homecredapi/catalog/catalog.xml')
-xmldata = r.content.decode(encoding='utf-8')
-f = open("/Users/rkhusamov/PycharmProjects/hc_parse_partners/xmls/xmldata_maxvideo.xml", "w+")
-f.write(xmldata)
+# # Скачиваем хмл-ку и открываем её
+# r = requests.get('http://www.maxvideo.ru/homecredapi/catalog/catalog.xml')
+# xmldata = r.content.decode(encoding='utf-8')
+# f = open("/Users/rkhusamov/PycharmProjects/hc_parse_partners/xmls/xmldata_maxvideo.xml", "w+")
+# f.write(xmldata)
 
-# # Или просто открываем хмл
-# xmldata = open('/Users/rkhusamov/PycharmProjects/hc_parse_partners/xmls/xmldata_maxvideo.xml', "r")
+# Или просто открываем хмл
+xmldata = open('/Users/rkhusamov/PycharmProjects/hc_parse_partners/xmls/xmldata_maxvideo.xml', "r")
 
 
 # Парсим хмл-ку

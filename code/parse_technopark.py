@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 # Попытаемся достать инфу по ценам с сайтов партнеров
 # https://codeexperiments.quora.com/Extracting-Flipkart-reviews-through-web-scraping
+# main
 
 import requests
 import re
@@ -45,14 +46,14 @@ def get_offer_honesty(offer):
     else:
         return (price, siteprice, url)
 
-# # Скачиваем хмл-ку и открываем её
-# r = requests.get('http://www.technopark.ru/price/marketHC.xml')
-# xmldata = r.content.decode(encoding='utf-8')
-# f = open("/Users/rkhusamov/PycharmProjects/hc_parse_partners/xmls/xmldata_technopark.xml", "w+")
-# f.write(xmldata)
+# Скачиваем хмл-ку и открываем её
+r = requests.get('http://www.technopark.ru/price/marketHC.xml')
+xmldata = r.content.decode(encoding='utf-8')
+f = open("/Users/rkhusamov/PycharmProjects/hc_parse_partners/xmls/xmldata_technopark.xml", "w+")
+f.write(xmldata)
 
-# Или просто открываем хмл
-xmldata = open('/Users/rkhusamov/PycharmProjects/hc_parse_partners/xmls/xmldata_technopark.xml', "r")
+# # Или просто открываем хмл
+# xmldata = open('/Users/rkhusamov/PycharmProjects/hc_parse_partners/xmls/xmldata_technopark.xml', "r")
 
 
 
